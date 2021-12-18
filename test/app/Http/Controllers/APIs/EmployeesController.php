@@ -14,13 +14,9 @@ class EmployeesController extends Controller
     {
         $employee = DB::table('employees')
         ->join('salaries','employees.emp_no', '=','salaries.emp_no')
-        ->select('employees.emp_no','employees.first_name','salaries.salary')
-        //->where('employees.emp_no','=','salaries.emp_no')
         ->selectRaw('employees.emp_no,employees.first_name, sum(salaries.salary) as sum')
         ->groupBy('employees.emp_no')
         ->orderBy('sum', 'DESC')->first();
-
-        //$max = $employee->max('sum')->get();
 
         return response()->json($employee);
     }
